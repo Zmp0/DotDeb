@@ -6,11 +6,11 @@ RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 LOGFILE="installed_debs.log"
+COMMAND="dotdeb"
 
 # Function to print usage information
 usage() {
-    echo -e "Usage: $0 file.deb"
-    echo -e "file.deb         The .deb file to install"
+    echo -e "Usage: $COMMAND file.deb"
 	}
 # Function to install a .deb file
 install_deb() {
