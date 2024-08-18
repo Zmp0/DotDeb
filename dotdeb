@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# Define color codes
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+LOGFILE="installed_debs.log"
+
+# Function to print usage information
+usage() {
+    echo -e "Usage: $0 file.deb"
+    echo -e "file.deb         The .deb file to install"
+	}
+# Function to install a .deb file
+install_deb() {
+    local deb_file=$1
+    if [[ -z "$deb_file" ]]; then
+        echo -e "${RED}Error: No .deb file specified.${NC}"
+        usage
+        exit 1
+    fi
+
+    if [[ ! -f "$deb_file" ]]; then
+        echo -e "${RED}Error: File '$deb_file' not found.${NC}"
+        exit 1
+    fi
+
+    echo -e "${GREEN}Installing $deb_file...${NC}"
+    sudo dpkg -i "$deb_file" | color
+
+    if [[ $? -ne 0 ]]; then
+        echo -e "${RED}Error: Installation failed.${NC}"
+        sudo nala install -f
+        exit 1
+    fi
+
+    echo -e "${GREEN}Successfully installed $deb_file.${NC}"
+
+    # Log the installed .deb file
+    echo "$deb_file" >> "$LOGFILE"
+}
+
+
+# Check for proper number of arguments
+if [[ $# -lt 1 ]]; then
+    usage
+    exit 1
+fi
+
+
+install_deb "$1"
