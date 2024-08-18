@@ -44,9 +44,9 @@ install_deb() {
 
 # Check for proper number of arguments
 if [[ $# -lt 1 ]]; then
-    usage
+    usage | color
     exit 1
 fi
 
 
-install_deb "$1"
+install_deb "$1" 
